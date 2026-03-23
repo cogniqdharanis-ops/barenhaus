@@ -1,0 +1,708 @@
+/* ============================================================
+   BÄREN HAUS — TARGETED ENHANCEMENTS
+   Import this at the bottom of index.css:
+   @import './enhancements.css';
+   ============================================================ */
+
+/* ============================================================
+   1. TYPOGRAPHY — Better scale, line-height, readability
+   ============================================================ */
+
+/* Body text more readable */
+body {
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+}
+
+/* Section titles — tighter on mobile, elegant on desktop */
+.section-title {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: 0.03em;
+}
+
+.section-description {
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+}
+
+/* Hero title — prevent overflow on small screens */
+.hero-title {
+  font-size: clamp(2.8rem, 7vw, 7.5rem);
+  line-height: 0.9;
+  letter-spacing: 0.05em;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2.2vw, 1.55rem);
+  line-height: 1.5;
+}
+
+.hero-desc {
+  font-size: clamp(0.88rem, 1.5vw, 1.02rem);
+  line-height: 1.9;
+}
+
+/* Card names */
+.menu-card-name,
+.event-card-title,
+.about-heading,
+.testimonial-quote {
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+/* Button text spacing */
+.btn-primary,
+.btn-ghost {
+  letter-spacing: 0.14em;
+  font-size: clamp(0.7rem, 1.2vw, 0.78rem);
+}
+
+/* ============================================================
+   2. NAVBAR — Sticky, spacing, active state, mobile fix
+   ============================================================ */
+
+.navbar {
+  /* Ensure truly sticky with correct z-index */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  /* Smooth background transition on scroll */
+  transition: background 350ms ease, box-shadow 350ms ease, border-color 350ms ease;
+}
+
+.navbar.scrolled {
+  background: rgba(5, 8, 5, 0.98);
+  box-shadow: 0 2px 40px rgba(0, 0, 0, 0.75);
+  border-bottom-color: var(--border-md);
+}
+
+/* Active link — clear gold underline */
+.navbar-link--active {
+  color: var(--gold-lt);
+}
+
+.navbar-link--active::after {
+  width: 100%;
+  background: var(--gold);
+}
+
+/* Navbar actions — hide below 900px, show above 1000px */
+.navbar-actions {
+  display: none;
+}
+
+@media (min-width: 1000px) {
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+}
+
+/* Reserve button — proper tap target */
+.navbar-reserve {
+  min-height: 40px;
+  padding: 0.5rem 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+  color: var(--bg);
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: transform 200ms, filter 200ms, box-shadow 200ms;
+  white-space: nowrap;
+}
+
+.navbar-reserve:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow: 0 6px 20px var(--gold-glow);
+}
+
+/* ============================================================
+   3. MOBILE NAVIGATION — Hamburger, panel, animations
+   ============================================================ */
+
+/* Show toggle only below 900px */
+.navbar-toggle {
+  display: none;
+  padding: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--cream);
+  flex-shrink: 0;
+  transition: border-color 200ms, background 200ms;
+  background: transparent;
+}
+
+@media (max-width: 900px) {
+  .navbar-links { display: none; }
+  .navbar-toggle { display: inline-flex; }
+}
+
+/* Hamburger → X animation */
+.navbar-toggle.is-open .navbar-toggle-icon {
+  background: transparent;
+}
+
+.navbar-toggle.is-open .navbar-toggle-icon::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.navbar-toggle.is-open .navbar-toggle-icon::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* Mobile panel — smooth slide down */
+.nav-panel {
+  position: fixed;
+  left: 50%;
+  top: calc(var(--nav-h) + 10px);
+  transform: translateX(-50%) translateY(-12px);
+  width: min(520px, calc(100vw - 2rem));
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-md);
+  background: rgba(5, 8, 5, 0.99);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.9);
+  padding: 0.6rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease, transform 260ms ease;
+  z-index: 210;
+}
+
+.nav-panel--open {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease;
+  z-index: 190;
+}
+
+.nav-overlay--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Mobile nav links — larger tap targets */
+.nav-panel-link {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 1.1rem;
+  border-radius: 10px;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  transition: background 180ms, color 180ms;
+}
+
+.nav-panel-link:hover {
+  background: var(--gold-dim);
+  color: var(--gold-lt);
+}
+
+.nav-panel-link--active {
+  background: var(--gold-dim);
+  color: var(--gold-lt);
+}
+
+/* ============================================================
+   4. ANIMATIONS — Scroll reveal working correctly
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+/* Stagger delays */
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+.reveal-d5 { transition-delay: 0.5s; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================================
+   5. SPACING — Consistent vertical rhythm across sections
+   ============================================================ */
+
+:root {
+  --sec-y: clamp(4rem, 8vw, 6.5rem);
+}
+
+.section {
+  padding-block: var(--sec-y);
+}
+
+.section-header {
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+  gap: 0.9rem;
+}
+
+/* Cards consistent gap */
+.menu-grid,
+.testimonials-grid {
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+/* About content padding */
+.about-content-col {
+  padding: clamp(2rem, 4vw, 4rem);
+  gap: clamp(1rem, 2vw, 1.75rem);
+}
+
+/* Events layout gap */
+.events-layout {
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+/* ============================================================
+   6. CONTACT FORM — Styled inputs, validation states
+   ============================================================ */
+
+.form-input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 220ms ease,
+              background 220ms ease,
+              box-shadow 220ms ease;
+  color-scheme: dark;
+  /* Prevent zoom on iOS — font-size must be >= 16px equivalent */
+  font-size: max(16px, 0.92rem);
+}
+
+.form-input:focus {
+  border-color: var(--border-md);
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+
+.form-input::placeholder {
+  color: rgba(122, 151, 122, 0.5);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* Contact info links hover */
+.contact-info-main:hover,
+.contact-info-sub:hover {
+  color: var(--gold-lt);
+}
+
+/* Contact wrap responsive */
+.contact-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+}
+
+@media (max-width: 860px) {
+  .contact-wrap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-form-col {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+  }
+
+  .contact-info-col {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form-col,
+  .contact-info-col {
+    padding: 1.5rem 1.1rem;
+  }
+
+  /* Stack name/email side by side inputs on mobile */
+  .contact-two-col {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* ============================================================
+   7. FOOTER — Proper layout, spacing, link styles
+   ============================================================ */
+
+.site-footer {
+  width: 100%;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(to bottom, rgba(5, 8, 5, 0.98), #020402);
+}
+
+.footer-inner {
+  padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(3rem, 5vw, 4.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
+  color: var(--muted);
+  align-items: start;
+}
+
+.footer-col-title {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  line-height: 1.8;
+}
+
+.footer-links a {
+  color: var(--muted);
+  transition: color 200ms ease, transform 200ms ease;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: var(--gold-lt);
+  transform: translateX(3px);
+}
+
+.footer-name {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 700;
+  color: var(--gold-lt);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.footer-bottom {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border-lt);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: var(--muted-2);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Footer responsive */
+@media (max-width: 1000px) {
+  .footer-inner {
+    grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  /* Brand takes full width on small screens */
+  .footer-inner > div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.35rem;
+  }
+}
+
+/* ============================================================
+   8. MOBILE LAYOUT — Global fixes
+   ============================================================ */
+
+/* Prevent horizontal overflow globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* All images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Container never overflows */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  overflow: hidden;
+}
+
+/* Hero grid — stack on mobile */
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .hero-right {
+    order: -1;
+  }
+
+  .hero-stats {
+    gap: 1.5rem;
+    padding-top: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-ghost {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-badges {
+    gap: 0.4rem;
+  }
+
+  .hero-badge {
+    font-size: 0.62rem;
+    padding: 0.28rem 0.7rem;
+  }
+}
+
+/* About — stack on mobile */
+@media (max-width: 860px) {
+  .about-wrap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-img-col {
+    min-height: 280px;
+  }
+}
+
+/* Menu grid — 2 col on tablet, 1 col on mobile */
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .menu-tabs {
+    gap: 0.4rem;
+  }
+
+  .menu-tab {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.68rem;
+  }
+}
+
+/* Events layout — stack on tablet */
+@media (max-width: 900px) {
+  .events-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Testimonials — 2 col on tablet */
+@media (max-width: 640px) {
+  .testimonials-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stats-bar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 1.5rem;
+    gap: 0.75rem;
+  }
+
+  .stat-value {
+    font-size: 1.4rem;
+  }
+}
+
+/* Gallery — responsive columns */
+@media (max-width: 900px) {
+  .gallery-masonry { column-count: 2; }
+}
+
+@media (max-width: 480px) {
+  .gallery-masonry { column-count: 1; }
+}
+
+/* Music banner — wrap on mobile */
+@media (max-width: 480px) {
+  .music-banner-inner {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .music-title { font-size: 0.95rem; }
+  .music-sub   { font-size: 0.7rem; }
+}
+
+/* Section kicker decorators — shorter on mobile */
+@media (max-width: 480px) {
+  .section-kicker::before,
+  .section-kicker::after {
+    width: 16px;
+  }
+}
+
+/* ============================================================
+   9. INTERACTIVE POLISH — Hover, focus, transitions
+   ============================================================ */
+
+/* Card hover — consistent lift */
+.menu-card,
+.testimonial-card,
+.info-card,
+.event-main {
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 280ms ease,
+              border-color 280ms ease;
+}
+
+.menu-card:hover,
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.75);
+  border-color: var(--border-md);
+}
+
+/* Gold link hover in footer & contact */
+.site-footer a:hover,
+.contact-info-main:hover,
+a.footer-phone:hover {
+  color: var(--gold-lt);
+}
+
+/* Button press effect */
+.btn-primary:active { transform: translateY(0) scale(0.99); }
+.btn-ghost:active   { transform: translateY(0); }
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  color: var(--bg);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: top 200ms ease;
+}
+
+.skip-link:focus { top: 1rem; }
+
+/* Focus visible ring */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+:focus:not(:focus-visible) { outline: none; }
