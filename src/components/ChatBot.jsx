@@ -22,7 +22,7 @@ export default function ChatBot() {
     setMsgs(updated);
     setLoading(true);
     try {
-      const res  = await fetch('http://localhost:3001/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: updated.map(({ role, content }) => ({ role, content })) }) });
+      const res  = await fetch('https://barenhaus-production.up.railway.app/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: updated.map(({ role, content }) => ({ role, content })) }) });
       const data = await res.json();
       if (!res.ok) throw new Error();
       setMsgs(p => [...p, { role: 'assistant', content: data.reply }]);
