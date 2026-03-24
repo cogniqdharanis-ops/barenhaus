@@ -2,9 +2,16 @@ import { useState, useRef, useEffect } from 'react';
 
 const SUGGESTIONS = ["What's on the menu?", "Do you have live music?", "What are your hours?", "How do I book a large group?"];
 
+const ChatIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 export default function ChatBot() {
   const [open, setOpen]       = useState(false);
-  const [msgs, setMsgs]       = useState([{ role: 'assistant', content: "Willkommen! 🐻 Welcome to Bären Haus. Ask me anything — menu, hours, live music, or how to book a large group!" }]);
+  const [msgs, setMsgs]       = useState([{ role: 'assistant', content: "Willkommen! Welcome to Bären Haus. Ask me anything — menu, hours, live music, or how to book a large group!" }]);
   const [input, setInput]     = useState('');
   const [loading, setLoading] = useState(false);
   const [unread, setUnread]   = useState(0);
@@ -52,7 +59,9 @@ export default function ChatBot() {
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.9rem 1.1rem', borderBottom: '1px solid var(--border)', background: 'rgba(0,0,0,0.3)', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg, var(--gold-lt), var(--gold))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem' }}>🐻</div>
+            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg, var(--gold-lt), var(--gold))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--bg)' }}>
+              <ChatIcon />
+            </div>
             <div>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', fontWeight: 500, color: 'var(--ivory)' }}>Bären Haus Assistant</p>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.68rem', color: '#42e885', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
@@ -110,12 +119,12 @@ export default function ChatBot() {
         </div>
       </div>
 
-      {/* Bubble */}
-      <button type="button" aria-label={open ? 'Close chat' : 'Open chat'} onClick={() => setOpen(o => !o)} style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 10000, width: 56, height: 56, borderRadius: '50%', background: open ? 'rgba(15,24,15,0.98)' : 'linear-gradient(135deg, var(--gold), var(--gold-lt))', border: open ? '1px solid var(--border-md)' : 'none', boxShadow: open ? 'none' : '0 8px 32px var(--gold-glow)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', cursor: 'pointer', transition: 'transform 220ms, background 240ms', color: open ? 'var(--cream)' : 'var(--bg)' }}
+      {/* Bubble — SVG icon instead of emoji */}
+      <button type="button" aria-label={open ? 'Close chat' : 'Open chat'} onClick={() => setOpen(o => !o)} style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 10000, width: 56, height: 56, borderRadius: '50%', background: open ? 'rgba(15,24,15,0.98)' : 'linear-gradient(135deg, var(--gold), var(--gold-lt))', border: open ? '1px solid var(--border-md)' : 'none', boxShadow: open ? 'none' : '0 8px 32px var(--gold-glow)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'transform 220ms, background 240ms', color: open ? 'var(--cream)' : 'var(--bg)', position: 'fixed' }}
         onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
         onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
       >
-        {open ? '✕' : '🐻'}
+        {open ? '✕' : <ChatIcon />}
         {!open && unread > 0 && <span style={{ position: 'absolute', top: 2, right: 2, width: 18, height: 18, borderRadius: '50%', background: '#f87171', color: '#fff', fontSize: '0.65rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--bg)' }}>{unread}</span>}
       </button>
 
