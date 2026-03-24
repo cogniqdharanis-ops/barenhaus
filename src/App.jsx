@@ -30,7 +30,6 @@ function NavbarScrollEffect() {
 
 export default function App() {
   useScrollReveal();
-
   return (
     <div className="app-shell">
       <ScrollToTop />

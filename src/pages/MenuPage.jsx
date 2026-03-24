@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { menuSections } from '../data/menuData';
+
 export default function MenuPage() {
   const [active, setActive] = useState('german');
   const section = menuSections.find(s => s.id === active);
+
   return (
     <div className="container" style={{ paddingBlock: '3rem' }}>
       <div className="section-header" style={{ marginBottom: '2.5rem' }}>
         <p className="section-kicker">Full Menu</p>
         <h1 className="section-title">Everything we make, we make from scratch.</h1>
-        <p className="section-description">All bread baked daily. House-made sauces, brines, and dough.</p>
+        <p className="section-description">
+          All bread baked daily. House-made sauces, brines, and dough.
+        </p>
       </div>
       <div className="menu-tabs">
         {menuSections.map(s => (

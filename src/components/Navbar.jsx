@@ -9,7 +9,7 @@ const links = [
   { label: 'Menu',    section: 'menu',     to: '/#menu' },
   { label: 'Events',  section: 'events',   to: '/#events' },
   { label: 'Gallery', section: 'gallery',  to: '/#gallery' },
-  { label: 'Contact', section: null,       to: '/contact' },
+  { label: 'Contact', section: 'contact', to: '/#contact' },
 ];
 
 export default function Navbar() {
